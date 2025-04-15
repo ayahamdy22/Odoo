@@ -1,0 +1,27 @@
+<odoo>
+    <!-- Extend res.partner Form View -->
+    <record id="res_partner_form_view_inherit_hms" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.hms</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+
+          <!-- <field name="arch" type="xml">
+    <field name="name" position="after">
+        <field name="related_patient_id"/>
+    </field>
+</field> -->
+
+    </record>
+
+    <!-- Extend res.partner Tree View -->
+    <record id="res_partner_tree_view_inherit_hms" model="ir.ui.view">
+        <field name="name">res.partner.tree.inherit.hms</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="email" position="after">
+                <field name="website"/>
+            </field>
+        </field>
+    </record>
+</odoo>

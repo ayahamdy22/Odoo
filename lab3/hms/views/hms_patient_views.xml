@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="hms_patient_tree_view" model="ir.ui.view">
+        <field name="name">hms.patient.tree</field>
+        <field name="model">hms.patient</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="first_name"/>
+                <field name="last_name"/>
+                <field name="birth_date"/>
+                <field name="blood_type"/>
+                <field name="age"/>
+                <field name="department_id"/>
+                <field name="state"/>
+                <field name="email"/> <!-- Added email to tree view -->
+            </tree>
+        </field>
+    </record>
+   
+    <!-- Form View -->
+    <record id="hms_patient_form_view" model="ir.ui.view">
+        <field name="name">hms.patient.form</field>
+        <field name="model">hms.patient</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" clickable="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="first_name" placeholder="First Name"/>
+                            <field name="last_name" placeholder="Last Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="birth_date"/>
+                            <field name="age" readonly="1"/>
+                            <field name="blood_type"/>
+                            <field name="pcr"/>
+                            <field name="cr_ratio"/>
+                            <field name="email"/> <!-- Added email field -->
+                        </group>
+                        <group>
+                            <field name="department_id" domain="[('is_opened', '=', True)]"/>
+                            <field name="department_capacity" readonly="1"/>
+                            <field name="doctor_ids" widget="many2many_tags" groups="hms.group_hms_manager"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Additional Info" name="additional_info">
+                            <group>
+                                <field name="image" widget="image"/>
+                                <field name="address"/>
+                                <field name="history"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to open the view -->
+    <record id="action_hms_patient" model="ir.actions.act_window">
+        <field name="name">Patients</field>
+        <field name="res_model">hms.patient</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="hms_patient_tree_view"/>
+    </record>
+</odoo>

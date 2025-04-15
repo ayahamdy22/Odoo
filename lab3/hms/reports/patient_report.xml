@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+        id="report_patient"
+        model="hms.patient"
+        string="Patient Status Report"
+        report_type="qweb-pdf"
+        name="hms.report_patient_template"
+        file="hms.report_patient_template"
+    />
+
+    <template id="report_patient_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Patient Status Report</h2>
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td><strong>Name:</strong></td>
+                                        <td><span t-field="doc.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Age:</strong></td>
+                                        <td><span t-field="doc.age"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Department:</strong></td>
+                                        <td><span t-field="doc.department_id.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Doctors:</strong></td>
+                                        <td>
+                                            <t t-foreach="doc.doctor_ids" t-as="doctor">
+                                                <span t-esc="doctor.first_name + ' ' + doctor.last_name"/><t t-if="not doctor_last">, </t>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Birth date:</strong></td>
+                                        <td><span t-field="doc.birth_date"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PCR:</strong></td>
+                                        <td><span t-field="doc.cr_ratio"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Blood Type:</strong></td>
+                                        <td><span t-field="doc.blood_type"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Email:</strong></td>
+                                        <td><span t-field="doc.email"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h4>Log History</h4>
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Date</th>
+                                            <th>Info</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="doc.message_ids" t-as="message">
+                                            <tr>
+                                                <td><span t-field="message.author_id.name"/></td>
+                                                <td><span t-field="message.date"/></td>
+                                                <td><span t-field="message.body"/></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
